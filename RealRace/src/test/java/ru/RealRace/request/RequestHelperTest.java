@@ -32,8 +32,8 @@ public class RequestHelperTest {
         QueryString q = new QueryString();
         q.add("login", "admin").add("password", "pass");
 
-        RequestHelper e = new RequestHelper();
-        e.postrequest("http://192.168.1.160:8008/ads", q);
+        String response = requestHelper.postRequest("http://www.cmlt.ru", q);
+        assertNotNull(response);
     }
 
     @Test
@@ -41,8 +41,8 @@ public class RequestHelperTest {
         QueryString q = new QueryString();
         q.add("login", "admin").add("password", "pass");
 
-        RequestHelper e = new RequestHelper();
-        e.getRequest("http://192.168.1.160:8008/ads", q);
+        String response = requestHelper.getRequest("http://www.cmlt.ru", q);
+        assertNotNull(response);
     }
 
 }

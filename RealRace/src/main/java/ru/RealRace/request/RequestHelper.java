@@ -25,7 +25,13 @@ public class RequestHelper {
         return b.toString();
     }
 
-    public void postrequest(String url, QueryString query) throws IOException {
+    /**
+     * ƒалает POST запрос
+     * @param url адрес сервера.
+     * @param query параметры запроса.
+     * @return ќтвет сервера.
+     */
+    public String postRequest(String url, QueryString query) throws IOException {
         //устанавливаем соединение
         URLConnection conn = new URL(url).openConnection();
         //мы будем писать POST данные в out stream
@@ -37,15 +43,18 @@ public class RequestHelper {
         out.flush();
         out.close();
 
-        //читаем то, что отдал нам сервер
-        String html = readStreamToString(conn.getInputStream(), "UTF-8");
+        //возвращаем то, что отдал нам сервер
+        return readStreamToString(conn.getInputStream(), "UTF-8");
 
-        //выводим информацию в консоль
-        System.out.println("URL:" + url);
-        System.out.println("Html:\n" + html);
     }
 
-    public void getRequest(String url, QueryString query) throws IOException {
+    /**
+     * ƒалает GET запрос
+     * @param url адрес сервера.
+     * @param query параметры запроса.
+     * @return ќтвет сервера.
+     */
+    public String getRequest(String url, QueryString query) throws IOException {
         //устанавливаем соединение
         URLConnection conn = new URL(url + "?" + query).openConnection();
         //заполним header request парамеры, можно и не заполн€ть
@@ -53,12 +62,8 @@ public class RequestHelper {
         conn.setRequestProperty("Cookie", "a=1");
         //можно установить и другие парамеры, такие как User-Agent
 
-        //читаем то, что отдал нам сервер
-        String html = readStreamToString(conn.getInputStream(), "UTF-8");
-
-        //выводим информацию в консоль
-        System.out.println("URL:" + url);
-        System.out.println("Html:\n" + html);
+        //¬озвращаем то, что отдал нам сервер
+        return readStreamToString(conn.getInputStream(), "UTF-8");
     }
 
 }
