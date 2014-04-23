@@ -15,7 +15,7 @@ public class RequestHelper {
      * @param encoding - кодировка данных
      * @return - данные в виде строки
      */
-    String readStreamToString(java.io.InputStream in, String encoding) throws IOException {
+    static String readStreamToString(java.io.InputStream in, String encoding) throws IOException {
         StringBuilder b = new StringBuilder();
         InputStreamReader r = new InputStreamReader(in, encoding);
         int c;
@@ -31,7 +31,7 @@ public class RequestHelper {
      * @param query параметры запроса.
      * @return Ответ сервера.
      */
-    public String postRequest(String url, QueryString query) throws IOException {
+    public static String requestPost(String url, QueryString query) throws IOException {
         //устанавливаем соединение
         URLConnection conn = new URL(url).openConnection();
         //мы будем писать POST данные в out stream
@@ -54,12 +54,12 @@ public class RequestHelper {
      * @param query параметры запроса.
      * @return Ответ сервера.
      */
-    public String getRequest(String url, QueryString query) throws IOException {
+    public static String requestGet(String url, QueryString query) throws IOException {
         //устанавливаем соединение
         URLConnection conn = new URL(url + "?" + query).openConnection();
         //заполним header request парамеры, можно и не заполнять
-        conn.setRequestProperty("Referer", "http://google.com/http.example.html");
-        conn.setRequestProperty("Cookie", "a=1");
+//        conn.setRequestProperty("Referer", "http://google.com/http.example.html");
+//        conn.setRequestProperty("Cookie", "a=1");
         //можно установить и другие парамеры, такие как User-Agent
 
         //Возвращаем то, что отдал нам сервер
