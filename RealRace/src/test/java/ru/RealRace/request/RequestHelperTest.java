@@ -22,7 +22,7 @@ public class RequestHelperTest {
 
     @Test
     public void requestPostTest() throws IOException {
-        QueryString q = new QueryString();
+        RequestParams q = new RequestParams();
         q.add("login", "admin").add("password", "pass");
 
         String response = RequestHelper.requestPost("http://www.cmlt.ru", q);
@@ -31,7 +31,7 @@ public class RequestHelperTest {
 
     @Test
     public void requsetGetTest() throws IOException {
-        QueryString q = new QueryString();
+        RequestParams q = new RequestParams();
         q.add("login", "admin").add("password", "pass");
 
         String response = RequestHelper.requestGet("http://www.cmlt.ru", q);

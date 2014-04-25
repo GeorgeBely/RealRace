@@ -31,7 +31,7 @@ public class RequestHelper {
      * @param query параметры запроса.
      * @return Ответ сервера.
      */
-    public static String requestPost(String url, QueryString query) throws IOException {
+    public static String requestPost(String url, RequestParams query) throws IOException {
         //устанавливаем соединение
         URLConnection conn = new URL(url).openConnection();
         //мы будем писать POST данные в out stream
@@ -54,7 +54,7 @@ public class RequestHelper {
      * @param query параметры запроса.
      * @return Ответ сервера.
      */
-    public static String requestGet(String url, QueryString query) throws IOException {
+    public static String requestGet(String url, RequestParams query) throws IOException {
         //устанавливаем соединение
         URLConnection conn = new URL(url + "?" + query).openConnection();
         //заполним header request парамеры, можно и не заполнять
