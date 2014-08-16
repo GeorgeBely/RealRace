@@ -1,4 +1,4 @@
-package ru.RealRace.messages;
+package ru.RealRace.properties;
 
 
 import java.io.File;

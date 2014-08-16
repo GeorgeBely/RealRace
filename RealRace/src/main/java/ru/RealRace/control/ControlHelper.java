@@ -1,7 +1,7 @@
 package ru.RealRace.control;
 
 
-import ru.RealRace.messages.PropertiesManager;
+import ru.RealRace.properties.PropertiesManager;
 import ru.RealRace.request.RequestParams;
 import ru.RealRace.request.RequestHelper;
 
