@@ -5,6 +5,7 @@ import ru.RealRace.properties.PropertiesManager;
 import ru.RealRace.request.RequestParams;
 import ru.RealRace.request.RequestHelper;
 
+import java.awt.event.KeyEvent;
 import java.io.IOException;
 
 public class ControlHelper {
@@ -58,6 +59,20 @@ public class ControlHelper {
             RequestHelper.requestGet(PropertiesManager.getPropertyValue("server.controller"), param);
         } catch (IOException e) {
             e.printStackTrace();
+        }
+    }
+
+    /**
+     * Задаёт определённое движение от нажатия определённой клавиши.
+     * @param e нажатая клавиша.
+     */
+    public static void pressMoveKey(KeyEvent e) {
+        char key = e.getKeyChar();
+        switch (key) {
+            case 'w' : moveUp();
+            case 's' : moveDown();
+            case 'a' : moveLeft();
+            case 'd' : moveRight();
         }
     }
 }

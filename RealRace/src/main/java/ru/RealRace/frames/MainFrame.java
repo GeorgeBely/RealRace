@@ -1,9 +1,12 @@
 package ru.RealRace.frames;
 
 import ru.RealRace.camera.CameraHelper;
+import ru.RealRace.control.ControlHelper;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 
 public class MainFrame extends JFrame {
 
@@ -42,6 +45,14 @@ public class MainFrame extends JFrame {
         setResizable(false);
         setVisible(true);
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+
+        addKeyListener(new KeyListener() {
+            public void keyPressed(KeyEvent e) {
+                ControlHelper.pressMoveKey(e);
+            }
+            public void keyReleased(KeyEvent e) {}
+            public void keyTyped(KeyEvent e) {}
+        });
 
         JPanel panel = new JPanel(){{
             setFocusable(true);
