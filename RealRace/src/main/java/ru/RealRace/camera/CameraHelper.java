@@ -15,6 +15,9 @@ public class CameraHelper {
 
     /**
      * Запуск gstreamer из библиотеки java.
+     * Добавление видео к контейнеру(container)
+     *
+     * @param container контейнер в котором будет отображаться видео поток.
      */
     public static void startGstreamer(final Container container) {
         Gst.init("VideoTest", new String[0]);          //инициализация gstreamer
