@@ -1,7 +1,8 @@
 package ru.RealRace.frames;
 
-import ru.RealRace.camera.CameraHelper;
-import ru.RealRace.control.ControlHelper;
+import ru.RealRace.services.CameraService;
+import ru.RealRace.services.Controlservice;
+import ru.RealRace.services.ImagesService;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -13,30 +14,27 @@ import java.io.IOException;
 
 public class MainFrame extends JFrame {
 
-    /**
-     * Ширина окна
-     */
+    /** Ширина окна */
     private static final int WIDTH = 900;
 
-    /**
-     * Высота окна
-     */
+    /** Высота окна */
     private static final int HEIGHT = 530;
 
-    /**
-     * Наименование окна
-     */
+    /** Наименование окна */
     private static final String TITLE = "RealRace";
 
-    /**
-     * Ширина картинки видео
-     */
+    /** Ширина картинки видео */
     private static final int VIDEO_WIDTH = 640;
 
-    /**
-     * Высота картинки видео
-     */
+    /** Высота картинки видео */
     private static final int VIDEO_HEIGHT = 480;
+
+    /** Координаты клавиш */
+    private static final int KEYS_WIDTH = 700;
+    private static final int KEYS_HEIGHT = 100;
+
+    /** Расстояние между клавишами */
+    private static final int DISTANCE_BETWEEN_KEY = 30;
 
 
     public MainFrame() {
@@ -56,11 +54,11 @@ public class MainFrame extends JFrame {
 
         panel.addKeyListener(new KeyListener() {
             public void keyPressed(KeyEvent e) {
-                ControlHelper.pressMoveKey(e);
-                writeKeyImage(panel, e.getKeyChar(), true);
+                Controlservice.pressMoveKey(e);
+                writeKeyImage(panel, KeyEvent.getKeyText(e.getKeyCode()), true);
             }
             public void keyReleased(KeyEvent e) {
-                writeKeyImage(panel, e.getKeyChar(), false);
+                writeKeyImage(panel, KeyEvent.getKeyText(e.getKeyCode()), false);
             }
             public void keyTyped(KeyEvent e) {}
         });
@@ -68,41 +66,46 @@ public class MainFrame extends JFrame {
 
         Container video = new Container();
         video.setSize(VIDEO_WIDTH, VIDEO_HEIGHT);
-        CameraHelper.startGstreamer(video);
+        CameraService.startGstreamer(video);
         panel.add(video);
 
-        writeKeyImage(panel, 'W', false);
-        writeKeyImage(panel, 'S', false);
-        writeKeyImage(panel, 'A', false);
-        writeKeyImage(panel, 'D', false);
+        writeKeyImage(panel, "Up", false);
+        writeKeyImage(panel, "Down", false);
+        writeKeyImage(panel, "Left", false);
+        writeKeyImage(panel, "Right", false);
 
     }
 
-    private void writeKeyImage(JPanel panel, char key, boolean pressed) {
+    private void writeKeyImage(JPanel panel, String key, boolean pressed) {
+        if (key == null)
+            return;
+
         int locationWidth = 0;
         int locationHeight = 0;
-        if ('S' == key || 's' == key) {
-            key = 'S';
-            locationWidth = 700;
-            locationHeight = 100;
-        } else if ('W' == key || 'w' == key) {
-            key = 'W';
-            locationHeight = 70;
-            locationWidth = 700;
-        } else if ('A' == key || 'a' == key) {
-            key = 'A';
-            locationHeight = 100;
-            locationWidth = 670;
-        } else if ('D' == key || 'd' == key) {
-            key = 'D';
-            locationHeight = 100;
-            locationWidth = 730;
+        if ("W".equals(key.toUpperCase()) || "Up".equals(key)) {
+            if (!pressed)
+                key = "Up";
+            locationHeight = KEYS_HEIGHT - DISTANCE_BETWEEN_KEY;
+            locationWidth = KEYS_WIDTH;
+        } else if ("S".equals(key.toUpperCase()) || "Down".equals(key)) {
+            if (!pressed)
+                key = "Down";
+            locationHeight = KEYS_HEIGHT;
+            locationWidth = KEYS_WIDTH;
+        } else if ("A".equals(key) || "Left".equals(key)) {
+            if (!pressed)
+                key = "Left";
+            locationHeight = KEYS_HEIGHT;
+            locationWidth = KEYS_WIDTH - DISTANCE_BETWEEN_KEY;
+        } else if ("D".equals(key) || "Right".equals(key)) {
+            if (!pressed)
+                key = "Right";
+            locationHeight = KEYS_HEIGHT;
+            locationWidth = KEYS_WIDTH + DISTANCE_BETWEEN_KEY;
         }
 
-        try {
-            String fileName = "./RealRace/images/keys/key-" + key + (pressed ? "-press" : "") + ".png";
-            Image imW = ImageIO.read(new File(fileName));
-            panel.getGraphics().drawImage(imW, locationWidth, locationHeight, null);
-        } catch (IOException ignore) {}
+        Image iconKey = ImagesService.getKeyIcon(key, pressed);
+        if (iconKey != null)
+            panel.getGraphics().drawImage(iconKey, locationWidth, locationHeight, null);
     }
 }

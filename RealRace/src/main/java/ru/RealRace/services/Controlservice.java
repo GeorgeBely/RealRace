@@ -1,4 +1,4 @@
-package ru.RealRace.control;
+package ru.RealRace.services;
 
 
 import ru.RealRace.properties.PropertiesManager;
@@ -8,7 +8,7 @@ import ru.RealRace.request.RequestHelper;
 import java.awt.event.KeyEvent;
 import java.io.IOException;
 
-public class ControlHelper {
+public class Controlservice {
 
     /** Номер gpio отвечающий за движение вперёд */
     private static final int MOVE_UP = 10;

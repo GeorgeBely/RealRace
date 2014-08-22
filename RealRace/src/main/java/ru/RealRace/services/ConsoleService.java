@@ -1,9 +1,9 @@
-package ru.RealRace.console;
+package ru.RealRace.services;
 
 
 import java.io.IOException;
 
-public class ConsoleHelper {
+public class ConsoleService {
 
     /**
      * Выполняет консольную команду;

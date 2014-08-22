@@ -1,9 +1,8 @@
-package ru.RealRace.camera;
+package ru.RealRace.services;
 
 
 import org.gstreamer.*;
 import org.gstreamer.swing.VideoComponent;
-import ru.RealRace.console.ConsoleHelper;
 
 import javax.swing.*;
 import java.awt.*;
@@ -11,7 +10,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class CameraHelper {
+public class CameraService {
 
     /**
      * Запуск gstreamer из библиотеки java.
@@ -70,7 +69,7 @@ public class CameraHelper {
         }
 
         try {
-            ConsoleHelper.useCommand(s.toString());
+            ConsoleService.useCommand(s.toString());
         } catch (IOException e) {
             e.printStackTrace();
         }
