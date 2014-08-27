@@ -4,13 +4,10 @@ import ru.RealRace.services.CameraService;
 import ru.RealRace.services.Controlservice;
 import ru.RealRace.services.ImagesService;
 
-import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
-import java.io.File;
-import java.io.IOException;
 
 public class MainFrame extends JFrame {
 
@@ -18,7 +15,7 @@ public class MainFrame extends JFrame {
     private static final int WIDTH = 900;
 
     /** Высота окна */
-    private static final int HEIGHT = 530;
+    private static final int HEIGHT = 535;
 
     /** Наименование окна */
     private static final String TITLE = "RealRace";
@@ -29,9 +26,13 @@ public class MainFrame extends JFrame {
     /** Высота картинки видео */
     private static final int VIDEO_HEIGHT = 480;
 
+    /** Расположение информации о заряде батареи */
+    private static final int LOCATION_BATTERY_WIDTH = 620;
+    private static final int LOCATION_BATTERY_HEIGHT = 250;
+
     /** Координаты клавиш */
-    private static final int KEYS_WIDTH = 700;
-    private static final int KEYS_HEIGHT = 100;
+    private static final int KEYS_WIDTH = 720;
+    private static final int KEYS_HEIGHT = 450;
 
     /** Расстояние между клавишами */
     private static final int DISTANCE_BETWEEN_KEY = 30;
@@ -49,6 +50,8 @@ public class MainFrame extends JFrame {
 
         final JPanel panel = new JPanel(){{
             setFocusable(true);
+            setLayout(null);
+            setBackground(Color.LIGHT_GRAY);
         }};
         add(panel);
 
@@ -63,16 +66,66 @@ public class MainFrame extends JFrame {
             public void keyTyped(KeyEvent e) {}
         });
 
+        JLabel labelLocationText = new JLabel("Координаты устройства") {{
+            setLocation(630, 10);
+            setSize(200, 20);
+        }};
+        panel.add(labelLocationText);
 
-        Container video = new Container();
-        video.setSize(VIDEO_WIDTH, VIDEO_HEIGHT);
-        CameraService.startGstreamer(video);
-        panel.add(video);
+        JLabel labelLatitude = new JLabel("Широта:") {{
+            setLocation(620, 25);
+            setSize(100, 20);
+        }};
+        panel.add(labelLatitude);
+
+        JLabel labelLongitude = new JLabel("Долгота:") {{
+            setLocation(750, 25);
+            setSize(100, 20);
+        }};
+        panel.add(labelLongitude);
+
+        JLabel labelThermometerText = new JLabel("Температура:") {{
+            setLocation(620, 100);
+            setSize(100, 20);
+        }};
+        panel.add(labelThermometerText);
+
+        JLabel labelThermometerValue = new JLabel() {{
+            setLocation(725, 100);
+            setSize(100, 20);
+        }};
+        panel.add(labelThermometerValue);
+
+        JLabel labelBatteryText = new JLabel("Заряд аккамулятора:") {{
+            setLocation(LOCATION_BATTERY_WIDTH, LOCATION_BATTERY_HEIGHT - 60);
+            setSize(200, 20);
+        }};
+        panel.add(labelBatteryText);
+
+        JLabel labelBatteryPower = new JLabel() {{
+            setLocation(LOCATION_BATTERY_WIDTH + 160, LOCATION_BATTERY_HEIGHT - 60);
+            setSize(100, 20);
+        }};
+        panel.add(labelBatteryPower);
+
+
+        JLabel labelKey = new JLabel("Управление объектом осуществяется с помощью клавиш:") {{
+            setLocation(620, 370);
+            setSize(300, 20);
+        }};
+        panel.add(labelKey);
 
         writeKeyImage(panel, "Up", false);
         writeKeyImage(panel, "Down", false);
         writeKeyImage(panel, "Left", false);
         writeKeyImage(panel, "Right", false);
+
+
+        Container video = new Container();
+        video.setSize(VIDEO_WIDTH, VIDEO_HEIGHT);
+        video.setLocation(-15, 5);
+        CameraService.startGstreamer(video);
+        panel.add(video);
 
     }
 
@@ -107,5 +160,21 @@ public class MainFrame extends JFrame {
         Image iconKey = ImagesService.getKeyIcon(key, pressed);
         if (iconKey != null)
             panel.getGraphics().drawImage(iconKey, locationWidth, locationHeight, null);
+    }
+
+    /**
+     * Рисует заряд батареи.
+     *
+     * @param powerEnergy % заряда батареи.
+     */
+    public void drawBatteryPower(Integer powerEnergy) {
+        Graphics g = getGraphics();
+        g.setColor(Color.WHITE);
+        g.fillRect(LOCATION_BATTERY_WIDTH+50, LOCATION_BATTERY_HEIGHT, 100, 20);
+        g.setColor(Color.BLACK);
+        g.drawRect(LOCATION_BATTERY_WIDTH+50, LOCATION_BATTERY_HEIGHT, 100, 20);
+        g.setColor(Color.GREEN);
+        g.fillRect(LOCATION_BATTERY_WIDTH+51, LOCATION_BATTERY_HEIGHT+1, powerEnergy-1, 20-1);
+
     }
 }

@@ -37,7 +37,7 @@ public class PropertiesManager {
      * Если настройки не инициализированны, инициализирует их.
      * @return настройки приложения.
      */
-    public static Properties getProperties() {
+    private static Properties getProperties() {
         if (properties == null) {
             properties = new Properties();
             initProperties();
