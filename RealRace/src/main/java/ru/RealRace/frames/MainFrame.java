@@ -31,8 +31,16 @@ public class MainFrame extends JFrame {
     private static final int LOCATION_BATTERY_HEIGHT = 250;
 
     /** Координаты клавиш */
-    private static final int KEYS_WIDTH = 720;
-    private static final int KEYS_HEIGHT = 450;
+    private static final int LOCATION_KEYS_WIDTH = 720;
+    private static final int LOCATION_KEYS_HEIGHT = 450;
+
+    /** Координаты блока данных о расположении */
+    private static final int LOCATION_COORDINATES_WIDTH = 620;
+    private static final int LOCATION_COORDINATES_HEIGHT = 25;
+
+    /** Координаты блока термометр */
+    private static final int LOCATION_THERMOMETER_WIDTH = 620;
+    private static final int LOCATION_THERMOMETER_HEIGHT = 100;
 
     /** Расстояние между клавишами */
     private static final int DISTANCE_BETWEEN_KEY = 30;
@@ -67,31 +75,31 @@ public class MainFrame extends JFrame {
         });
 
         JLabel labelLocationText = new JLabel("Координаты устройства") {{
-            setLocation(630, 10);
+            setLocation(LOCATION_COORDINATES_WIDTH + 10, LOCATION_COORDINATES_HEIGHT - 15);
             setSize(200, 20);
         }};
         panel.add(labelLocationText);
 
         JLabel labelLatitude = new JLabel("Широта:") {{
-            setLocation(620, 25);
+            setLocation(LOCATION_COORDINATES_WIDTH, LOCATION_COORDINATES_HEIGHT);
             setSize(100, 20);
         }};
         panel.add(labelLatitude);
 
         JLabel labelLongitude = new JLabel("Долгота:") {{
-            setLocation(750, 25);
+            setLocation(LOCATION_COORDINATES_WIDTH + 130, LOCATION_COORDINATES_HEIGHT);
             setSize(100, 20);
         }};
         panel.add(labelLongitude);
 
         JLabel labelThermometerText = new JLabel("Температура:") {{
-            setLocation(620, 100);
+            setLocation(LOCATION_THERMOMETER_WIDTH, LOCATION_THERMOMETER_HEIGHT);
             setSize(100, 20);
         }};
         panel.add(labelThermometerText);
 
         JLabel labelThermometerValue = new JLabel() {{
-            setLocation(725, 100);
+            setLocation(LOCATION_THERMOMETER_HEIGHT + 105, LOCATION_THERMOMETER_HEIGHT);
             setSize(100, 20);
         }};
         panel.add(labelThermometerValue);
@@ -108,6 +116,7 @@ public class MainFrame extends JFrame {
         }};
         panel.add(labelBatteryPower);
 
+        drawBatteryPower(0);
 
         JLabel labelKey = new JLabel("Управление объектом осуществяется с помощью клавиш:") {{
             setLocation(620, 370);
@@ -138,23 +147,23 @@ public class MainFrame extends JFrame {
         if ("W".equals(key.toUpperCase()) || "Up".equals(key)) {
             if (!pressed)
                 key = "Up";
-            locationHeight = KEYS_HEIGHT - DISTANCE_BETWEEN_KEY;
-            locationWidth = KEYS_WIDTH;
+            locationHeight = LOCATION_KEYS_HEIGHT - DISTANCE_BETWEEN_KEY;
+            locationWidth = LOCATION_KEYS_WIDTH;
         } else if ("S".equals(key.toUpperCase()) || "Down".equals(key)) {
             if (!pressed)
                 key = "Down";
-            locationHeight = KEYS_HEIGHT;
-            locationWidth = KEYS_WIDTH;
+            locationHeight = LOCATION_KEYS_HEIGHT;
+            locationWidth = LOCATION_KEYS_WIDTH;
         } else if ("A".equals(key) || "Left".equals(key)) {
             if (!pressed)
                 key = "Left";
-            locationHeight = KEYS_HEIGHT;
-            locationWidth = KEYS_WIDTH - DISTANCE_BETWEEN_KEY;
+            locationHeight = LOCATION_KEYS_HEIGHT;
+            locationWidth = LOCATION_KEYS_WIDTH - DISTANCE_BETWEEN_KEY;
         } else if ("D".equals(key) || "Right".equals(key)) {
             if (!pressed)
                 key = "Right";
-            locationHeight = KEYS_HEIGHT;
-            locationWidth = KEYS_WIDTH + DISTANCE_BETWEEN_KEY;
+            locationHeight = LOCATION_KEYS_HEIGHT;
+            locationWidth = LOCATION_KEYS_WIDTH + DISTANCE_BETWEEN_KEY;
         }
 
         Image iconKey = ImagesService.getKeyIcon(key, pressed);
