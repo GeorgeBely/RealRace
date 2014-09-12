@@ -45,6 +45,9 @@ public class MainFrame extends JFrame {
     /** Расстояние между клавишами */
     private static final int DISTANCE_BETWEEN_KEY = 30;
 
+    /** Строка со значением заряда батареи */
+    private JLabel labelBatteryPower;
+
 
     public MainFrame() {
         Toolkit kit = Toolkit.getDefaultToolkit();
@@ -110,13 +113,12 @@ public class MainFrame extends JFrame {
         }};
         panel.add(labelBatteryText);
 
-        JLabel labelBatteryPower = new JLabel() {{
+        labelBatteryPower = new JLabel() {{
             setLocation(LOCATION_BATTERY_WIDTH + 160, LOCATION_BATTERY_HEIGHT - 60);
             setSize(100, 20);
         }};
         panel.add(labelBatteryPower);
-
-        drawBatteryPower(0);
+        drawBatteryPower(panel, 0);
 
         JLabel labelKey = new JLabel("Управление объектом осуществяется с помощью клавиш:") {{
             setLocation(620, 370);
@@ -176,14 +178,22 @@ public class MainFrame extends JFrame {
      *
      * @param powerEnergy % заряда батареи.
      */
-    public void drawBatteryPower(Integer powerEnergy) {
-        Graphics g = getGraphics();
-        g.setColor(Color.WHITE);
-        g.fillRect(LOCATION_BATTERY_WIDTH+50, LOCATION_BATTERY_HEIGHT, 100, 20);
-        g.setColor(Color.BLACK);
-        g.drawRect(LOCATION_BATTERY_WIDTH+50, LOCATION_BATTERY_HEIGHT, 100, 20);
-        g.setColor(Color.GREEN);
-        g.fillRect(LOCATION_BATTERY_WIDTH+51, LOCATION_BATTERY_HEIGHT+1, powerEnergy-1, 20-1);
+    public void drawBatteryPower(JPanel panel, Integer powerEnergy) {
+        if (powerEnergy == null)
+            return;
+        if (powerEnergy > 100)
+            powerEnergy = 100;
 
+        labelBatteryPower.setText(powerEnergy.toString() + "%");
+
+        Image batteryEmpty = ImagesService.getBatteryEmptyImage();
+        if (batteryEmpty != null)
+            panel.getGraphics().drawImage(batteryEmpty, LOCATION_BATTERY_WIDTH, LOCATION_BATTERY_HEIGHT - 37, null);
+
+        Image batteryPowerLine = ImagesService.getBatteryPowerLineImage();
+        if (batteryPowerLine != null) {
+            for (int i = 0; i < powerEnergy; i++)
+                panel.getGraphics().drawImage(batteryPowerLine, LOCATION_BATTERY_WIDTH + 13 + i, LOCATION_BATTERY_HEIGHT - 37, null);
+        }
     }
 }

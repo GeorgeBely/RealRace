@@ -14,6 +14,9 @@ public class ImagesService {
     /** Расположение иконок кнопок */
     private static final String LOCATION_KEYS = LOCATION_IMAGES + "/icons/keys";
 
+    /** Расположение изображений аккамулятора */
+    private static final String LOCATION_BATTERY = LOCATION_IMAGES + "/battery";
+
 
     /**
      * Выбор иконки клавиши.
@@ -26,6 +29,28 @@ public class ImagesService {
         String fileName = LOCATION_KEYS + "/key-" + key + (pressed ? "-press" : "") + ".png";
         try {
             return ImageIO.read(new File(fileName));
+        } catch (IOException e) {
+            return null;
+        }
+    }
+
+    /**
+     * @return картинку пустого аккамулятора.
+     */
+    public static Image getBatteryEmptyImage() {
+        try {
+            return ImageIO.read(new File(LOCATION_BATTERY + "/battery_empty.png"));
+        } catch (IOException e) {
+            return null;
+        }
+    }
+
+    /**
+     * @return картинку линии заряда.
+     */
+    public static Image getBatteryPowerLineImage() {
+        try {
+            return ImageIO.read(new File(LOCATION_BATTERY + "/power_line.png"));
         } catch (IOException e) {
             return null;
         }
