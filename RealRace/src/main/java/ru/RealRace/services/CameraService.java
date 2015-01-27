@@ -20,29 +20,27 @@ public class CameraService {
      */
     public static void startGstreamer(final Container container) {
         Gst.init("VideoTest", new String[0]);          //инициализация gstreamer
-        SwingUtilities.invokeLater(new Runnable() {
-            public void run() {
-                Element videoSrc = ElementFactory.make("videotestsrc", "source");
-                Element videoFilter = ElementFactory.make("capsfilter", "filter");
-                videoFilter.setCaps(Caps.fromString("video/x-raw-yuv, width=720, height=576"
-                        + ", bpp=32, depth=32, framerate=25/1"));
-                VideoComponent videoComponent = new VideoComponent();
-                Element videoSink = videoComponent.getElement();
-                videoComponent.setSize(container.getWidth(), container.getHeight());
-                container.add(videoComponent, BorderLayout.CENTER);
+        SwingUtilities.invokeLater(() -> {
+            Element videoSrc = ElementFactory.make("videotestsrc", "source");
+            Element videoFilter = ElementFactory.make("capsfilter", "filter");
+            videoFilter.setCaps(Caps.fromString("video/x-raw-yuv, width=720, height=576"
+                    + ", bpp=32, depth=32, framerate=25/1"));
+            VideoComponent videoComponent = new VideoComponent();
+            Element videoSink = videoComponent.getElement();
+            videoComponent.setSize(container.getWidth(), container.getHeight());
+            container.add(videoComponent, BorderLayout.CENTER);
 
-                Pipeline pipe = new Pipeline("VideoTest");
-                pipe.addMany(videoSrc, videoFilter, videoSink);
+            Pipeline pipe = new Pipeline("VideoTest");
+            pipe.addMany(videoSrc, videoFilter, videoSink);
 
-                Element.linkMany(videoSrc, videoFilter, videoSink);
+            Element.linkMany(videoSrc, videoFilter, videoSink);
 
-                pipe.setState(State.PLAYING);    // Start the pipeline processing
-            }
+            pipe.setState(State.PLAYING);    // Start the pipeline processing
         });
     }
 
     public void startCamera() {
-        List<String> attributes = new ArrayList<String>();
+        List<String> attributes = new ArrayList<>();
         attributes.add("gst-launch");
         attributes.add("udpsrc port=3000");
         attributes.add("! \"application/x-rtp,");
